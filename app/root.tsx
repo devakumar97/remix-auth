@@ -1,10 +1,16 @@
-
-import type { LinksFunction } from "@remix-run/node";
+import {
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useLoaderData,
+} from "@remix-run/react";
+import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
 
 import "./tailwind.css";
-// import { Button } from "./routes/components/ui/button";
-// import { UserDropdown } from "./routes/components/user-dropdown";
-import { Link, Outlet,} from "react-router";
+import { getUser } from "~/routes/utils/session.server"; // or wherever your getUser helper is
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -19,9 +25,11 @@ export const links: LinksFunction = () => [
   },
 ];
 
-// const async function loader (){
-
-// }
+// ✅ root loader that returns the user
+export async function loader({ request }: LoaderFunctionArgs) {
+  const user = await getUser(request); // nullable
+  return json({ user });
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -29,38 +37,21 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-       
+        <Meta />
+        <Links />
       </head>
       <body>
         {children}
+        <ScrollRestoration />
+        <Scripts />
       </body>
     </html>
   );
 }
 
+// 👇 Root App component that reads user from loader
 export default function App() {
-  // const user = useLoaderData<typeof loader>()
+  const { user } = useLoaderData<typeof loader>();
 
-  return (
-    <div className="">
-      <header>
-        <nav>
-          <Logo/>
-          {/* {user ? <UserDropdown/> : (<Button asChild>
-            <Link to="/login">Login</Link>
-          </Button>/>)} */}
-        </nav>
-      </header>
-      <main>
-        <Outlet/>
-      </main>
-      <footer>
-        <Logo/> 
-      </footer>
-    </div>
-  );
-}
-
-function Logo() {
-  return <Link  to="/">Chat-on</Link>
+  return <Outlet />;
 }

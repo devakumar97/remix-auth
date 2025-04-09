@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1743677798529,
+      "tag": "0000_next_exiles",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1743678944484,
+      "tag": "0001_noisy_onslaught",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1743679078572,
+      "tag": "0002_redundant_gladiator",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1744024684452,
+      "tag": "0003_grey_black_widow",
+      "breakpoints": true
+    }
+  ]
+}
